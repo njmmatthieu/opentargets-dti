@@ -1,0 +1,44 @@
+row: 
+    map:
+        column: id
+        to_subject: gene
+
+transformers:
+    - split_nested:
+        keys:
+            - proteinIds
+            - id
+        to_object: protein
+        via_relation: transcribed_to
+    - split_nested:
+        keys:
+            - proteinIds
+            - source
+        to_property: id_source
+        for_object: protein
+    # - map:
+    #     column: approvedSymbol
+    #     match:
+    #         - protein_coding:
+    #             to_property: hugoSymbol
+    #             for_object: gene
+    #         - TR_V_gene:
+    #             to_property: hugoSymbol
+    #             for_object: gene
+    #         - IG_C_gene:
+    #             to_property: hugoSymbol
+    #             for_object: gene
+    #         - TR_C_gene:
+    #             to_property: hugoSymbol
+    #             for_object: gene
+    #         - transcribed_unitary_pseudogene:
+    #             to_property: hugoSymbol
+    #             for_object: gene
+    - map:
+        column: biotype
+        to_property: biotype
+        for_object: gene
+    - map:
+        column: approvedName
+        to_property: name
+        for_object: gene
