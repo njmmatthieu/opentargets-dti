@@ -11,7 +11,7 @@ transformers:
         final_type: drug
         via_relation: subclass_of
     - map:
-        column: childChemblIds [numpy.darray - shape (n,)]
+        column: childChemblIds # [numpy.darray - shape (n,)]
         to_object: child_drug
         final_type: drug
         via_relation: superclass_of
@@ -37,7 +37,7 @@ transformers:
         to_property: drugType
         for_object: drug
     - map:
-        column: blackBoxWarning [bool]
+        column: blackBoxWarning # [bool]
         to_property: blackBoxWarning
         for_object: drug
     - map:
@@ -53,7 +53,7 @@ transformers:
         to_property: maximumClinicalTrialPhase
         for_object: drug
     - map:
-        column: hasBeenWithdrawn [bool]
+        column: hasBeenWithdrawn # [bool]
         to_property: hasBeenWithdrawn
         for_object: drug
     - map:

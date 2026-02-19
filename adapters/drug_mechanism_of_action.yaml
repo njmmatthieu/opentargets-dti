@@ -1,5 +1,5 @@
 row:
-    split: # TODO double-check several subjects?
+    split:
         column: chemblIds # [numpy.darray - shape (n,)]
         to_subject: drug
 

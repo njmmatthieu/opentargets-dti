@@ -63,6 +63,8 @@ patient has chronic illness:
 
 gene status affects gene:
     is_a: affects
+has_target:
+    is_a: affects
 
 ### GO -- TO BE FIXED
 # annotation: 
