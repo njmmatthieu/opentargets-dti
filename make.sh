@@ -66,11 +66,12 @@ cmd="uv run ontoweave  \
      --biocypher-config config/config.yaml \
      --biocypher-schema config/schema.yaml \
      --auto-schema config/extended_schema.yaml \
+     --register adapters/ot-transformers.py \
      ${weave_args} \
-     ${data_dir}/drug_mechanism_of_action/*.parquet:adapters/drug_mechanism_of_action.yaml \
+     ${data_dir}/drug_molecule/*.parquet:adapters/drug_molecule.yaml \
      "
      # ${data_dir}/target/*.parquet:adapters/target.yaml \
-     # ${data_dir}/drug_molecule/*.parquet:adapters/drug_molecule.yaml \
+     # ${data_dir}/drug_mechanism_of_action/*.parquet:adapters/drug_mechanism_of_action.yaml \
 
 echo "Weaving command:" >&2
 echo "$cmd" >&2

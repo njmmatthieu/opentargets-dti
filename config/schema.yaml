@@ -10,6 +10,12 @@ gene status:
     is_a: phenomenon
 sample:
     is_a: material sample
+child_drug:
+    is_a: drug
+parent_drug:
+    is_a: drug
+row_drug:
+    is_a: drug
 
 ########################
 # EDGES
@@ -130,3 +136,10 @@ biological process to gene:
 #         extra_attrs: str
 #         evidences: str
 #         name: str
+
+subclass_of:
+    is_a: association
+
+superclass_of:
+    is_a: association
+

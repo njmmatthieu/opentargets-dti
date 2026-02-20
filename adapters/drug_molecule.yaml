@@ -1,7 +1,7 @@
 row:
-    map:
+    split:
         column: id
-        to_subject: row_drug
+        to_subject: row_drug # FIXME raw_drug ?
         final_type: drug
 
 transformers:
@@ -68,6 +68,11 @@ transformers:
         column: synonyms # [numpy.darray - shape (n,)]
         to_property: synonym
         for_object: drug
+    - urls_to_prop:
+        column: crossReferences
+        to_property: references
+        for_object: drug
+        key: 1
     # - map: # TODO faire un transformer
     #     column: crossReferences # [list of tuple ('key', 'numpy.darray - shape (1,)')]
     #     to_property: Wikipedia

@@ -15,21 +15,13 @@ transformers:
     - map:
         column: actionType
         to_property: action_type
-        for_object: has_target
+        for_relation: has_target
     - map:
         column: mechanismOfAction
         to_property: mechanism_of_action
-        for_object: has_target
-    # - map:
-    #     column: references # [numpy.darray - shape (n,) - dictionary 3 keys: 'source', 'ids' et 'urls' ]
-    #     to_property: PubMed
-    #     for_object: has_target
-    #     # ex: [{'source:': "...", 'ids': arra([]), 'urls': array([])}]
-    #     # TODO transformer
-    # - map:
-    #     column: references # [numpy.darray - shape (n,) - dictionary 3 keys: 'source', 'ids' et 'urls' ]
-    #     to_property: Other
-    #     for_object: has_target
-    #     # ex: [{'source:': "...", 'ids': arra([]), 'urls': array([])}]
-    #     # TODO transformer
-# ...
+        for_relation: has_target
+    - urls_to_prop:  # Aggregate all the URLs in one list.
+        column: references
+        to_property: references
+        for_relation: has_target
+        key: urls
