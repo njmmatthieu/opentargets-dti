@@ -27,19 +27,19 @@ transformers:
     - map:
         column: canonicalSmiles
         to_property: canonicalSmiles
-        for_object: drug
+        for_object: row_drug  # Do not forget to map on the temporary type.
     - map:
         column: inchiKey
         to_property: inchiKey
-        for_object: drug
+        for_object: row_drug
     - map:
         column: drugType
         to_property: drugType
-        for_object: drug
+        for_object: row_drug
     - boolean:
         column: blackBoxWarning
         to_property: blackBoxWarning
-        for_object: drug
+        for_object: row_drug
         consider_true:
             - True
         consider_false:
@@ -49,19 +49,19 @@ transformers:
     - map:
         column: name
         to_property: drugName
-        for_object: drug
+        for_object: row_drug
     - map:
         column: yearOfFirstApproval
         to_property: yearOfFirstApproval
-        for_object: drug
+        for_object: row_drug
     - map:
         column: maximumClinicalTrialPhase
         to_property: maximumClinicalTrialPhase
-        for_object: drug
+        for_object: row_drug
     - boolean:
         column: hasBeenWithdrawn
         to_property: hasBeenWithdrawn
-        for_object: drug
+        for_object: row_drug
         consider_true:
             - True
         consider_false:
@@ -71,27 +71,28 @@ transformers:
     - boolean:
         column: isApproved
         to_property: isApproved
-        for_object: drug
+        for_object: row_drug
         consider_true:
             - True
         consider_false:
             - False
+            - None
         output_true: True
         output_false: False
     - split:
         column: tradeNames # [numpy.darray - shape (n,)]
         to_property: tradeName
-        for_object: drug
+        for_object: row_drug
     - split:
         column: synonyms # [numpy.darray - shape (n,)]
         to_property: synonym
-        for_object: drug
-    - urls_to_prop:
+        for_object: row_drug
+    - urls_to_prop:  # FIXME drugbank does not give 'urls' but only 'ids'
         column: crossReferences
         to_property: references
-        for_object: drug
+        for_object: row_drug
         key: 1
     - map:
         column: description
         to_property: description
-        for_object: drug
+        for_object: row_drug
