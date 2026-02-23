@@ -1,4 +1,6 @@
 
+import logging
+
 import ontoweaver
 
 class urls_to_prop(ontoweaver.base.Transformer):
@@ -17,9 +19,11 @@ class urls_to_prop(ontoweaver.base.Transformer):
                     self.error(f"Column '{col}' not found in data", section="map.call",
                                exception=exceptions.TransformerDataError)
                 refs = row[col]
-                for ref in refs:
-                    for item in ref[self.key]:
-                        yield item
+                if refs is not None:
+                    for ref in refs:
+                        if self.key in ref:
+                            for item in ref[self.key]:
+                                yield item
 
     def __init__(self,
             properties_of,
