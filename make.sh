@@ -66,6 +66,7 @@ cmd="uv run ontoweave  \
      --biocypher-config config/config.yaml \
      --biocypher-schema config/schema.yaml \
      --auto-schema config/extended_schema.yaml \
+     --auto-schema-overwrite \
      --register adapters/ot-transformers.py \
      ${weave_args} \
      ${data_dir}/target/*.parquet:adapters/target.yaml \
