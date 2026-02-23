@@ -15,7 +15,7 @@ row:
                 to_subject: gene
 
 transformers:
-    - split_nested:
+    - access_proteins:
         keys:
             - proteinIds
             - id

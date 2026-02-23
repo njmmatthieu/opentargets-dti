@@ -51,3 +51,73 @@ class urls_to_prop(ontoweaver.base.Transformer):
             **kwargs
         )
 
+
+class access_proteins(ontoweaver.base.Transformer):
+
+    def __init__(self,
+        properties_of,
+        label_maker = None,
+        branching_properties = None,
+        columns=None,
+        output_validator = None,
+        multi_type_dict = None,
+        raise_errors = True,
+        separator = None,
+        **kwargs
+    ):
+        """
+        FIXME doc
+        """
+
+        logging.debug(f"COLUMNS: {type(columns)}\n{columns}")
+        assert columns, "I need 2 keys to operate."
+        assert isinstance(columns, list), "I need several keys."
+        assert len(columns) >= 2, "I need 2 keys, or you should use either split or nested."
+
+        self.split = ontoweaver.transformer.split(
+            properties_of,
+            label_maker,
+            branching_properties,
+            [columns[0]],
+            output_validator,
+            multi_type_dict,
+            raise_errors=raise_errors,
+            separator = separator,
+            **kwargs,
+        )
+
+        keys = columns[1:]
+        if not isinstance(keys, list):
+            keys = [keys]
+
+        self.nested = ontoweaver.transformer.nested(
+            properties_of,
+            label_maker,
+            branching_properties,
+            keys,
+            output_validator,
+            multi_type_dict,
+            raise_errors=raise_errors,
+            **kwargs,
+        )
+
+        super().__init__(properties_of,
+            self.split.value_maker,
+            label_maker,
+            branching_properties,
+            columns,
+            output_validator,
+            multi_type_dict,
+            raise_errors=raise_errors,
+            **kwargs
+        )
+
+    def __call__(self, row, i):
+        for rowval in self.split.value_maker(self.split.columns, row, i):
+            val = self.nested.value_maker(self.nested.keys, rowval, i)
+            assert isinstance(val, list)
+            for v in val:
+                value, edge_type, node_type, reverse_edge = self.create(v, row)
+                if ontoweaver.base.is_not_null(value):
+                    yield value, edge_type, node_type, reverse_edge
+
