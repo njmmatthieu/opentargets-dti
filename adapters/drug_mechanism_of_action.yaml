@@ -16,10 +16,11 @@ transformers:
         column: actionType
         to_property: action_type
         for_relation: has_target
-    - map:
+    - replace:
         column: mechanismOfAction
         to_property: mechanism_of_action
         for_relation: has_target
+        forbidden: "'"
     - urls_to_prop:  # Aggregate all the URLs in one list.
         column: references
         to_property: references
