@@ -17,7 +17,7 @@ class urls_to_prop(ontoweaver.base.Transformer):
             for col in columns:
                 if col not in row:
                     self.error(f"Column '{col}' not found in data", section="map.call",
-                               exception=exceptions.TransformerDataError)
+                               exception=ontoweaver.exceptions.TransformerDataError)
                 refs = row[col]
                 if refs is not None:
                     for ref in refs:
