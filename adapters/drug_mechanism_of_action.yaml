@@ -7,7 +7,7 @@ transformers:
     - split:
         column: targets  # [numpy.darray - shape (n,)]
         to_object: gene
-        via_relation: has_target
+        via_relation: drug_has_target
     # - map:
     #     column: targetName
     #     to_property: name
@@ -15,14 +15,14 @@ transformers:
     - map:
         column: actionType
         to_property: action_type
-        for_relation: has_target
+        for_relation: drug_has_target
     - replace:
         column: mechanismOfAction
         to_property: mechanism_of_action
-        for_relation: has_target
+        for_relation: drug_has_target
         forbidden: "'"
     - urls_to_prop:  # Aggregate all the URLs in one list.
         column: references
         to_property: references
-        for_relation: has_target
+        for_relation: drug_has_target
         key: urls

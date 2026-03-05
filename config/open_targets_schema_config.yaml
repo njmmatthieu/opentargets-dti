@@ -15,16 +15,7 @@ drug:
         isApproved: bool
         tradeName: str
         synonym: str
-        Wikipedia: str
-        chEBI: str
-        drugbank: str
-        PubChem: str
-        INN: str
-        DrugCentral: str
-        TG-GATEs: str
-        DailyMed: str
-        EMA: str
-        USAN: str
+        references: str
         description: str
         
 parent_drug:
@@ -43,16 +34,7 @@ parent_drug:
         isApproved: bool
         tradeName: str
         synonym: str
-        Wikipedia: str
-        chEBI: str
-        drugbank: str
-        PubChem: str
-        INN: str
-        DrugCentral: str
-        TG-GATEs: str
-        DailyMed: str
-        EMA: str
-        USAN: str
+        references: str
         description: str
 
 child_drug:
@@ -71,16 +53,7 @@ child_drug:
         isApproved: bool
         tradeName: str
         synonym: str
-        Wikipedia: str
-        chEBI: str
-        drugbank: str
-        PubChem: str
-        INN: str
-        DrugCentral: str
-        TG-GATEs: str
-        DailyMed: str
-        EMA: str
-        USAN: str
+        references: str
         description: str
 
 gene:
@@ -98,9 +71,10 @@ protein:
 
 # EDGES
 
-has target:
+drug has target:
+    is a: drug to gene association
     represented_as: edge
-    label_in_input: has_target
+    label_in_input: drug_has_target
 
 subclass of:
     represented_as: edge

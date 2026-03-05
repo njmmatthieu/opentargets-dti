@@ -21,7 +21,7 @@ transformers:
             - rows
             - 0
         to_object: gene
-        via_relation: has_target
+        via_relation: drug_has_target
         # ex: {'rows': array(['', ''], dtype=object),'count': 2}
         # [0] ou [1] ? FIXME
     - map:
