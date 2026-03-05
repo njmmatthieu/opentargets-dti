@@ -114,10 +114,12 @@ class access_proteins(ontoweaver.base.Transformer):
 
     def __call__(self, row, i):
         for rowval in self.split.value_maker(self.split.columns, row, i):
-            val = self.nested.value_maker(self.nested.keys, rowval, i)
-            assert isinstance(val, list)
-            for v in val:
-                value, edge_type, node_type, reverse_edge = self.create(v, row)
-                if ontoweaver.base.is_not_null(value):
-                    yield value, edge_type, node_type, reverse_edge
+            if rowval:
+                if rowval['source']=="uniprot_swissprot":
+                    val = self.nested.value_maker(self.nested.keys, rowval, i)
+                    assert isinstance(val, list)
+                    for v in val:
+                        value, edge_type, node_type, reverse_edge = self.create(v, row)
+                        if ontoweaver.base.is_not_null(value):
+                            yield value, edge_type, node_type, reverse_edge
 
