@@ -18,6 +18,7 @@ row_drug:
         synonym: str
         references: str
         description: str
+        data_source: str
 
 # parent drug:
 #     is_a: drug
@@ -75,6 +76,7 @@ drug:
         synonym: str
         references: str
         description: str
+        data_source: str
         
 gene:
     represented_as: node
@@ -83,10 +85,13 @@ gene:
         gene_summary: str
         hugoSymbol: str
         name: str
+        data_source: str
 
 protein:
     represented_as: node
     label_in_input: protein
+    properties:
+        data_source: str
 
 # EDGES
 
@@ -94,6 +99,8 @@ drug_has_target:
     is_a: drug to gene association
     represented_as: edge
     label_in_input: drug_has_target
+    properties:
+        data_source: str
 
 # subclass of:
 #     represented_as: edge
@@ -111,5 +118,6 @@ transcript_to_gene_relationship:
     is_a : transcript to gene relationship
     represented_as: edge
     input_label: transcript_to_gene_relationship
-
+    properties:
+        data_source: str
 

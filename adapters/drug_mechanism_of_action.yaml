@@ -26,3 +26,6 @@ transformers:
         to_property: references
         for_relation: drug_has_target
         key: urls
+
+metadata:
+        - data_source: open_targets_drug_mechanism_of_action

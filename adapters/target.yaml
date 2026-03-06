@@ -34,3 +34,6 @@ transformers:
         to_property: name
         for_object: gene
         forbidden: "'"
+
+metadata:
+        - data_source: open_targets_target
