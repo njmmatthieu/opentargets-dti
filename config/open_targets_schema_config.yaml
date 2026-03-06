@@ -1,6 +1,64 @@
 # NODES
 
+row_drug:
+    is_a: drug 
+    represented_as: node
+    label_in_input : row_drug
+    properties:
+        canonicalSmiles: str
+        inchiKey: str
+        drugType: str
+        blackBoxWarning: bool
+        drug_name: str
+        yearOfFirstapproval: str
+        maximumClinicalTrialPhase: str
+        hasBeenWithdrawn: bool
+        isApproved: bool
+        tradeName: str
+        synonym: str
+        references: str
+        description: str
+
+# parent drug:
+#     is_a: drug
+#     represented_as: node
+#     label_in_input : parent_drug
+#     properties:
+#         canonicalSmiles: str
+#         inchiKey: str
+#         drugType: str
+#         blackBoxWarning: bool
+#         drug_name: str
+#         yearOfFirstapproval: str
+#         maximumClinicalTrialPhase: str
+#         hasBeenWithdrawn: bool
+#         isApproved: bool
+#         tradeName: str
+#         synonym: str
+#         references: str
+#         description: str
+
+# child drug:
+#     is_a: drug
+#     represented_as: node
+#     label_in_input : chid_drug
+#     properties:
+#         canonicalSmiles: str
+#         inchiKey: str
+#         drugType: str
+#         blackBoxWarning: bool
+#         drug_name: str
+#         yearOfFirstapproval: str
+#         maximumClinicalTrialPhase: str
+#         hasBeenWithdrawn: bool
+#         isApproved: bool
+#         tradeName: str
+#         synonym: str
+#         references: str
+#         description: str
+
 drug:
+    # is_a: drug 
     represented_as: node
     label_in_input : drug
     properties:
@@ -18,44 +76,6 @@ drug:
         references: str
         description: str
         
-parent_drug:
-    is_a: drug
-    represented_as: node
-    label_in_input : drug
-    properties:
-        canonicalSmiles: str
-        inchiKey: str
-        drugType: str
-        blackBoxWarning: bool
-        drug_name: str
-        yearOfFirstapproval: str
-        maximumClinicalTrialPhase: str
-        hasBeenWithdrawn: bool
-        isApproved: bool
-        tradeName: str
-        synonym: str
-        references: str
-        description: str
-
-child_drug:
-    is_a: drug
-    represented_as: node
-    label_in_input : drug
-    properties:
-        canonicalSmiles: str
-        inchiKey: str
-        drugType: str
-        blackBoxWarning: bool
-        drug_name: str
-        yearOfFirstapproval: str
-        maximumClinicalTrialPhase: str
-        hasBeenWithdrawn: bool
-        isApproved: bool
-        tradeName: str
-        synonym: str
-        references: str
-        description: str
-
 gene:
     represented_as: node
     label_in_input: gene
@@ -67,29 +87,29 @@ gene:
 protein:
     represented_as: node
     label_in_input: protein
-    properties:
 
 # EDGES
 
-drug has target:
-    is a: drug to gene association
+drug_has_target:
+    is_a: drug to gene association
     represented_as: edge
     label_in_input: drug_has_target
 
-subclass of:
-    represented_as: edge
-    label_in_input : subclass_of
+# subclass of:
+#     represented_as: edge
+#     label_in_input : subclass_of
 
-superclass of:
-    represented_as: edge
-    label_in_input : superclass_of
-    properties:
-        actionType: str
-        mechanism_of_action: str
-        # references: str
+# superclass of:
+#     represented_as: edge
+#     label_in_input : superclass_of
+#     properties:
+#         actionType: str
+#         mechanism_of_action: str
+#         # references: str
 
-transcribed to:
+transcript_to_gene_relationship:
+    is_a : transcript to gene relationship
     represented_as: edge
-    label_in_input: transcribed_to
+    input_label: transcript_to_gene_relationship
 
 

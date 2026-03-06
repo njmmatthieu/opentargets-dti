@@ -48,8 +48,8 @@ sample carries alteration:
 alteration causes gene status:
     is_a: causes
 
-transcribed_to:
-    is_a: causes
+transcript_to_gene_relationship:
+    is_a: transcript to gene relationship
 
 ### BIOMARKER
 
