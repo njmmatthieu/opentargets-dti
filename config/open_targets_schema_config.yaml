@@ -82,8 +82,7 @@ gene:
     represented_as: node
     label_in_input: gene
     properties:
-        gene_summary: str
-        hugoSymbol: str
+        gene_symbol: str
         name: str
         data_source: str
 
