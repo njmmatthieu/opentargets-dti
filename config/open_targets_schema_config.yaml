@@ -94,7 +94,7 @@ protein:
 
 # EDGES
 
-drug_has_target:
+drug has target:
     is_a: drug to gene association
     represented_as: edge
     label_in_input: drug_has_target
@@ -113,8 +113,8 @@ drug_has_target:
 #         mechanism_of_action: str
 #         # references: str
 
-transcript_to_gene_relationship:
-    is_a : transcript to gene relationship
+transcript to gene relationship:
+    # is_a : transcript to gene relationship
     represented_as: edge
     input_label: transcript_to_gene_relationship
     properties:
