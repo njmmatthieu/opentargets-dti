@@ -50,7 +50,7 @@ transformers:
         column: name
         to_property: drugName
         for_object: row_drug
-        forbideen: "'"
+        forbidden: "'"
     - map:
         column: yearOfFirstApproval
         to_property: yearOfFirstApproval
@@ -98,7 +98,6 @@ transformers:
         column: description
         to_property: description
         for_object: row_drug
-        forbideen: "'"
-
+        forbidden: "'"
 metadata:
         - data_source: open_targets_drug_molecule
