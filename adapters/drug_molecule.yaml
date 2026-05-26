@@ -15,15 +15,15 @@ transformers:
     #     to_object: child_drug
     #     final_type: drug
     #     via_relation: superclass_of
-    - nested:
-        keys:
-            - linkedTargets # [dictionary: key="rows" numpy.darray - shape (1,)]
-            - rows
-            - 0
-        to_object: gene
-        via_relation: drug_has_target
-        # ex: {'rows': array(['', ''], dtype=object),'count': 2}
-        # [0] ou [1] ? FIXME
+    # - nested:
+    #     keys:
+    #         - linkedTargets # [dictionary: key="rows" numpy.darray - shape (1,)]
+    #         - rows
+    #         - 0
+    #     to_object: gene
+    #     via_relation: drug_has_target
+    #     # ex: {'rows': array(['', ''], dtype=object),'count': 2}
+    #     # [0] ou [1] ? FIXME
     - map:
         column: canonicalSmiles
         to_property: canonicalSmiles
