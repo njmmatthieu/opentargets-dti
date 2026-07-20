@@ -60,42 +60,96 @@ def progress_read(filename, hint=None, steps=100, estimate_lines=10, **kwargs):
 
     return df
 
-
-def process_OT(bc, directory, columns, name, manager_t):
+def process_OT(directory, name):
     logging.info(f" | Weave Open Targets {name}...")
 
-    conf_filename = f"oncodashkb/adapters/{name}.yaml"
-    nodes = []
-    edges = []
+    mapping_file = f"opentargets-dti/adapters/{name}.yaml"
+
+    logging.debug(f"DIRECTORY {directory}")
 
     #TODO check if reading directory is necessary, and the .* option.
     if os.path.isdir(directory):
         parquet_files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith('.parquet')]
         logging.info(f" |  | Concatenating {len(parquet_files)} parquet files...")
-        df = pd.concat([pd.read_parquet(file, columns=columns) for file in parquet_files])
+        df = pd.concat([pd.read_parquet(file) for file in parquet_files])
+
+        logging.debug(f"COLUMNS: {df.columns}")
 
         logging.info(f" |  | Read {name} mapping...")
         try:
-            with open(conf_filename) as fd:
-                conf = yaml.full_load(fd)
+            with open(mapping_file) as fd:
+                ymapping = yaml.full_load(fd)
         except Exception as e:
             logging.error(e)
             sys.exit(error_codes["CannotAccessFile"])
 
-        logging.info(f" |  | Transform {name} data...")
-        manager = manager_t(df, conf, raise_errors = True)
+        # with alive_bar(len(df), file=sys.stderr) as progress:
+        #     for n,e in manager():
+        #         progress()
 
+        logging.info(f" |  | Process {mapping_file}...")
+
+        yparser = ontoweaver.mapping.YamlParser(ymapping)
+        mapping = yparser()
+
+        adapter = ontoweaver.tabular.PandasAdapter(
+            df,
+            *mapping,
+            type_affix="suffix",
+            type_affix_sep=":",
+            raise_errors = asked.debug
+        )
+
+        local_nodes = []
+        local_edges = []
         with alive_bar(len(df), file=sys.stderr) as progress:
-            for n,e in manager():
+            for n,e in adapter():
+                # NOTE: here, n & e are ontoweaver.base.Element, not BioCypher tuples.
+                local_nodes += n
+                local_edges += e
                 progress()
 
-        nodes += manager.nodes
-        edges += manager.edges
     else:
         logging.error(f"`{directory}` is not a directory. I need a directory to be able to load the parquet files within it.")
         sys.exit(error_codes["FileError"])
 
-    return nodes, edges
+    return local_nodes, local_edges
+
+# def process_OT(bc, directory, columns, name, manager_t):
+#     logging.info(f" | Weave Open Targets {name}...")
+
+#     conf_filename = f"oncodashkb/adapters/{name}.yaml"
+#     nodes = []
+#     edges = []
+
+#     #TODO check if reading directory is necessary, and the .* option.
+#     if os.path.isdir(directory):
+#         parquet_files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith('.parquet')]
+#         logging.info(f" |  | Concatenating {len(parquet_files)} parquet files...")
+#         df = pd.concat([pd.read_parquet(file, columns=columns) for file in parquet_files])
+
+#         logging.info(f" |  | Read {name} mapping...")
+#         try:
+#             with open(conf_filename) as fd:
+#                 conf = yaml.full_load(fd)
+#         except Exception as e:
+#             logging.error(e)
+#             sys.exit(error_codes["CannotAccessFile"])
+
+#         logging.info(f" |  | Transform {name} data...")
+#         manager = manager_t(df, conf, raise_errors = True)
+
+#         with alive_bar(len(df), file=sys.stderr) as progress:
+#             for n,e in manager():
+#                 progress()
+
+#         nodes += manager.nodes
+#         edges += manager.edges
+#     else:
+#         logging.error(f"`{directory}` is not a directory. I need a directory to be able to load the parquet files within it.")
+#         sys.exit(error_codes["FileError"])
+
+#     return nodes, edges
 
 
 def process_GO(name):
@@ -199,17 +253,14 @@ if __name__ == "__main__":
     parser.add_argument("-r", "--gene-ontology-reverse", action='store_true',
                         help="Extract from a Gene_Ontology_Annotation GAF file.")
 
-    parser.add_argument("-t", "--open-targets", metavar="PARQUET", nargs="+",
+    parser.add_argument("-ott", "--open-targets-target", metavar="PARQUET", nargs="+",
                         help="Extract parquet files containing targets from the given directory.")
 
-    parser.add_argument("-e", "--open-targets-evidences", metavar="PARQUET", nargs="+",
+    parser.add_argument("-otmao", "--open-targets-drug_mechanism_of_action", metavar="PARQUET", nargs="+",
                         help="Extract parquet files containing evidences from the given directory.")
 
-    parser.add_argument("-d", "--open-targets-drugs", metavar="PARQUET", nargs="+",
+    parser.add_argument("-otdm", "--open-targets-drug-molecule", metavar="PARQUET", nargs="+",
                         help="Extract parquet files containing molecule from the given directory.")
-
-    parser.add_argument("-p", "--open-targets-diseases", metavar="PARQUET", nargs="+",
-                        help="Extract parquet files containing diseases from the given directory.")
 
     parser.add_argument("-s", "--separator", metavar="STRING", default=", ",
                         help="Separator in exported data files.")
@@ -337,10 +388,16 @@ if __name__ == "__main__":
         directory = asked.open_targets[0]
         columns = ["id", "approvedSymbol", "approvedName", 'transcriptIds']
         name = "open_targets"
+
         local_nodes, local_edges = process_OT(
-            bc, directory, columns, name,
-            od.open_targets.OpenTargets
+            directory,
+            name,
         )
+
+        # local_nodes, local_edges = process_OT(
+        #     bc, directory, columns, name,
+        #     od.open_targets.OpenTargets
+        # )
         logging.info(f"OK, wove {name}: {len(local_nodes)} nodes and {len(local_edges)} edges.")
         nodes += local_nodes
         edges += local_edges
@@ -357,6 +414,29 @@ if __name__ == "__main__":
             bc, directory, columns, name,
             od.open_targets_drugs.OpenTargetsDrugs
         )
+
+        local_nodes, local_edges = process_OT(
+            directory,
+            name,
+        )
+
+        logging.info(f"OK, wove {name}: {len(local_nodes)} nodes and {len(local_edges)} edges.")
+        nodes += local_nodes
+        edges += local_edges
+        logging.info(f"Done adapter {opt_loaded}/{opt_total}")
+
+    ### OpenTargets Drug Mechanims of Action
+    if asked.open_targets_drug_mechanism_of_action:
+        opt_loaded += 1
+        logging.info(f"########## Adapter #{opt_loaded}/{opt_total} ##########")
+        directory = asked.open_targets_drug_mechanism_of_action[0]
+        name = "open_targets_drug_mechanism_of_action"
+
+        local_nodes, local_edges = process_OT(
+            directory,
+            name,
+        )
+
         logging.info(f"OK, wove {name}: {len(local_nodes)} nodes and {len(local_edges)} edges.")
         nodes += local_nodes
         edges += local_edges

@@ -65,8 +65,10 @@ transformers:
         for_object: row_drug
         consider_true:
             - True
+            - 1.0
         consider_false:
             - False
+            - 0.0
         output_true: True
         output_false: False
     - boolean:
@@ -75,9 +77,10 @@ transformers:
         for_object: row_drug
         consider_true:
             - True
+            - 1.0
         consider_false:
             - False
-            - None
+            - 0.0
         output_true: True
         output_false: False
     - split_replace:
