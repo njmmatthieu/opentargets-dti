@@ -10,8 +10,8 @@ authors = [
     { name = "Benno Schwikowski", email = "benno.schwikowski@pasteur.fr" },
 ]
 dependencies = [
-  "biocypher>=0.11.0,<0.12",
-  "pooch>=1.7.0,<2.0",
+  "biocypher>=0.15.0,<1.0",
+  "pooch>=1.8.0,<2.0",
   "pandas>=2.3.1,<3.0",
   "owlready2>=0.49,<1.0",
   "numpy>=2.2.0,<3.0",
@@ -19,10 +19,10 @@ dependencies = [
   "matplotlib>=3.10.0,<4.0",
   "polars>=1.22.0,<2.0",
   "seaborn>=0.13.2,<0.14",
-  "ontoweaver>=1.5.3,<1.6.0",
+  "ontoweaver>=1.7.0,<2.0.0",
   "pre-commit>=4.5.0",
   "openpyxl>=3.1.5",
-  "pyarrow<21.0.0",
+#   "pyarrow<21.0.0",
 ]
 
 [dependency-groups]
