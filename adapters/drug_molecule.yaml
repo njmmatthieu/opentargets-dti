@@ -102,5 +102,10 @@ transformers:
         to_property: description
         for_object: row_drug
         forbidden: "'"
+    - replace:
+        column: name
+        to_property: visualisation_label
+        for_object: row_drug
+        forbidden: "'"
 metadata:
         - data_source: open_targets_drug_molecule
