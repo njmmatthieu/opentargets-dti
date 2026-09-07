@@ -19,6 +19,7 @@ row_drug:
         references: str
         description: str
         data_source: str
+        visualisation_label: str
 
 # parent drug:
 #     is_a: drug
@@ -77,6 +78,7 @@ drug:
         references: str
         description: str
         data_source: str
+        visualisation_label: str
         
 gene:
     represented_as: node
